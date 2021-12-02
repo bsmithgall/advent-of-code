@@ -1,6 +1,7 @@
 mod day1;
+mod day2;
 
 fn main() {
-    println!("Hello, world!");
-    day1::run_counts()
+    day2::steer(false);
+    day1::run_counts(true);
 }

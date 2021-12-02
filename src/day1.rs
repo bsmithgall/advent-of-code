@@ -1,11 +1,13 @@
-pub fn run_counts() {
-    let input: Vec<i32> = include_str!("day-1-input.txt")
-        .split("\n")
-        .map(|d| d.parse::<i32>().unwrap())
-        .collect();
+pub fn run_counts(skip: bool) {
+    if !skip {
+        let input: Vec<i32> = include_str!("inputs/day-1.txt")
+            .split("\n")
+            .map(|d| d.parse::<i32>().unwrap())
+            .collect();
 
-    println!("Simple comparison count: {}", simple_comparison(&input));
-    println!("Sliding window count: {}", sliding_window_count(&input));
+        println!("Simple comparison count: {}", simple_comparison(&input));
+        println!("Sliding window count: {}", sliding_window_count(&input));
+    }
 }
 
 fn simple_comparison(input: &Vec<i32>) -> i32 {
