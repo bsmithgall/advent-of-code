@@ -19,13 +19,18 @@ pub fn bingo(skip: bool) {
         for number in numbers_to_draw {
             for card in bingo_cards.iter_mut() {
                 if card.winner {
-                    continue
+                    continue;
                 }
 
                 card.mark(number);
 
                 if card.is_bingo() {
-                    println!("Winner! {}, {}, {}", card.unmarked_sum(), number, card.unmarked_sum() * number);
+                    println!(
+                        "Winner! {}, {}, {}",
+                        card.unmarked_sum(),
+                        number,
+                        card.unmarked_sum() * number
+                    );
                     card.mark_winner(number);
                 }
             }
