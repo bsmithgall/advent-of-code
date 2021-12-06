@@ -22,8 +22,8 @@ pub fn vents(skip: bool) {
                 *acc.entry(item).or_insert(0) += 1;
                 acc
             })
-            .iter()
-            .filter(|(_, num)| num >= &&2)
+            .into_iter()
+            .filter(|(_, num)| num >= &2)
             .count();
 
         println!(
@@ -38,8 +38,8 @@ pub fn vents(skip: bool) {
                 *acc.entry(item).or_insert(0) += 1;
                 acc
             })
-            .iter()
-            .filter(|(_, num)| num >= &&2)
+            .into_iter()
+            .filter(|(_, num)| num >= &2)
             .count();
 
         println!(
