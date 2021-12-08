@@ -5,9 +5,11 @@ mod day4;
 mod day5;
 mod day6;
 mod day7;
+mod day8;
 
 fn main() {
-    day7::crab_move(false);
+    day8::displays(false);
+    day7::crab_move(true);
     day6::lanternfish(true);
     day5::vents(true);
     day4::bingo(true);
