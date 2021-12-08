@@ -14,7 +14,9 @@ pub fn lanternfish(skip: bool) {
         while day < 256 {
             school.tick();
             day += 1;
-            if day == 80 { println!("School size after day 80: {}", school.size()) }
+            if day == 80 {
+                println!("School size after day 80: {}", school.size())
+            }
         }
 
         println!("School size after day 256: {}", school.size())
@@ -47,7 +49,7 @@ impl LanternfishSchool {
             if key != &0 {
                 new_fish.insert(key - 1, value.clone());
             } else {
-                continue
+                continue;
             }
         }
 
