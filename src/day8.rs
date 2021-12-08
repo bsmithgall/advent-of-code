@@ -305,41 +305,12 @@ impl DisplayMap {
             3 => 7,
             4 => 4,
             7 => 8,
-            5 => self.parse_five_segment_str(from_str),
-            6 => self.parse_six_segment_str(from_str),
+            5 | 6 => self.parse_segment_str(from_str),
             _ => panic!("Invalid display string"),
         }
     }
 
-    fn parse_five_segment_str(&self, from_str: &str) -> i32 {
-        let s = self.to_position_set(from_str);
-
-        if s == DisplayPart::two() {
-            2
-        } else if s == DisplayPart::three() {
-            3
-        } else if s == DisplayPart::five() {
-            5
-        } else {
-            panic!("Invalid five segment string!")
-        }
-    }
-
-    fn parse_six_segment_str(&self, from_str: &str) -> i32 {
-        let s = self.to_position_set(from_str);
-
-        if s == DisplayPart::six() {
-            6
-        } else if s == DisplayPart::nine() {
-            9
-        } else if s == DisplayPart::zero() {
-            0
-        } else {
-            panic!("Invalid five segment string!")
-        }
-    }
-
-    fn to_position_set(&self, from_str: &str) -> HashSet<&DisplayPart> {
+    fn parse_segment_str(&self, from_str: &str) -> i32 {
         let mut s = HashSet::new();
 
         for l in from_str.split("") {
@@ -350,7 +321,21 @@ impl DisplayMap {
             s.insert(display_value);
         }
 
-        s
+        if s == DisplayPart::two() {
+            2
+        } else if s == DisplayPart::three() {
+            3
+        } else if s == DisplayPart::five() {
+            5
+        } else if s == DisplayPart::six() {
+            6
+        } else if s == DisplayPart::nine() {
+            9
+        } else if s == DisplayPart::zero() {
+            0
+        } else {
+            panic!("Invalid five segment string!")
+        }
     }
 }
 
