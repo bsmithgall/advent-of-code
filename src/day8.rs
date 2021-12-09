@@ -315,7 +315,7 @@ impl DisplayMap {
 
         for l in from_str.split("") {
             if l.is_empty() {
-                continue
+                continue;
             }
             let display_value = self.map.get(l).expect("Could not find letter!");
             s.insert(display_value);

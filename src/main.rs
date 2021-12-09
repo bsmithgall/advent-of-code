@@ -6,9 +6,11 @@ mod day5;
 mod day6;
 mod day7;
 mod day8;
+mod day9;
 
 fn main() {
-    day8::displays(false);
+    day9::smoke_basin(false);
+    day8::displays(true);
     day7::crab_move(true);
     day6::lanternfish(true);
     day5::vents(true);
