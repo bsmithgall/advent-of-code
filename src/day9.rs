@@ -1,3 +1,4 @@
+use std::convert::identity;
 use std::{collections::HashMap, collections::HashSet, collections::VecDeque};
 
 pub fn smoke_basin(skip: bool) {
@@ -119,13 +120,7 @@ impl LavaMap {
         neighbors.push(self.cells.get(&(cell.x, cell.y - 1)));
         neighbors.push(self.cells.get(&(cell.x, cell.y + 1)));
 
-        neighbors
-            .into_iter()
-            .filter_map(|c| match c {
-                Some(cell) => Some(cell),
-                None => None,
-            })
-            .collect()
+        neighbors.into_iter().filter_map(identity).collect()
     }
 
     fn is_low_point(&self, cell: &Cell) -> bool {
