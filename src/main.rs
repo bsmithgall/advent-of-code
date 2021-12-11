@@ -1,5 +1,6 @@
 mod day1;
 mod day10;
+mod day11;
 mod day2;
 mod day3;
 mod day4;
@@ -10,7 +11,8 @@ mod day8;
 mod day9;
 
 fn main() {
-    day10::check_syntax(false);
+    day11::octopus(false);
+    day10::check_syntax(true);
     day9::smoke_basin(true);
     day8::displays(true);
     day7::crab_move(true);
