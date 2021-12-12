@@ -1,4 +1,4 @@
-use std::collections::{HashMap};
+use std::collections::HashMap;
 
 pub fn navigate(skip: bool) {
     if !skip {
@@ -43,23 +43,61 @@ impl Cave {
             name: String::from(name),
         }
     }
+}
 
-    fn can_visit(&self, already_visited: &Vec<&Cave>) -> bool {
-        let small_visit_count = already_visited
-            .into_iter()
-            .filter(|c| c.cave_type == CaveType::Small)
-            .fold(HashMap::new(), |mut acc, cave| {
-                *acc.entry(cave.name.clone()).or_insert(0) += 1;
-                acc
-            });
+#[derive(Clone)]
+struct CavePath {
+    path: Vec<Cave>,
+    visit_counts: HashMap<String, i32>,
+    max_small_visits: i32,
+}
 
-        let max_small_visit = small_visit_count.values().max().unwrap_or(&0);
-        let current_visit_count = small_visit_count.get(&self.name).unwrap_or(&0);
+impl CavePath {
+    fn new() -> CavePath {
+        let mut visit_counts = HashMap::new();
+        visit_counts.insert(String::from("start"), 1);
+        CavePath {
+            path: vec![Cave::from_name("start")],
+            max_small_visits: 0,
+            visit_counts,
+        }
+    }
 
-        match self.cave_type {
+    fn last_visited(&self) -> &Cave {
+        self.path.last().expect("Could not find last cave!")
+    }
+
+    fn can_visit(&self, cave: &Cave) -> bool {
+        match cave.cave_type {
             CaveType::Big => true,
             CaveType::Terminus => false,
-            CaveType::Small => max_small_visit < &2 || current_visit_count < &1,
+            CaveType::Small => {
+                self.max_small_visits < 2
+                    || self.visit_counts.get(&cave.name.clone()).unwrap_or(&0) < &1
+            }
+        }
+    }
+
+    /// visiting creates a new path from an existing path with the new cave
+    /// tacked onto the end and the relevant metadata values updated
+    fn visit(&self, cave: &Cave) -> CavePath {
+        let mut new_path = self.path.clone();
+        new_path.push(cave.clone());
+
+        let mut new_visit_counts = self.visit_counts.clone();
+        *new_visit_counts.entry(cave.name.clone()).or_insert(0) += 1;
+
+        let current_visit_count = new_visit_counts.get(&cave.name).expect("Oh no");
+
+        let mut new_max_small_visits = self.max_small_visits;
+        if cave.cave_type == CaveType::Small && current_visit_count > &new_max_small_visits {
+            new_max_small_visits = *current_visit_count
+        }
+
+        CavePath {
+            path: new_path,
+            visit_counts: new_visit_counts,
+            max_small_visits: new_max_small_visits,
         }
     }
 }
@@ -87,27 +125,24 @@ impl CaveGraph {
     }
 
     fn calculate_paths(&self) -> u32 {
-        let mut total_paths: u32 = 0;
+        let mut total_paths = 0;
 
-        let start = Cave::from_name("start");
-        let mut queue: Vec<Vec<&Cave>> = vec![vec![&start]];
+        let mut queue: Vec<CavePath> = vec![CavePath::new()];
 
         while !queue.is_empty() {
-            let current_path = queue.pop().expect("Could not find current path!");
-            let current_cave = current_path.last().expect("Could not find current cave!");
+            let current_path = queue.pop().expect("Could not find cave path!");
+            let current_cave = current_path.last_visited();
 
             let neighbors = self
                 .map
-                .get(&current_cave)
-                .expect("Could not find cave on map!");
+                .get(current_cave)
+                .expect("Could not find neighbors on map!");
 
             for n in neighbors {
-                let mut new_path = current_path.clone();
-
                 if n.name == "end" {
                     total_paths += 1
-                } else if n.can_visit(&new_path) {
-                    new_path.push(n);
+                } else if current_path.can_visit(n) {
+                    let new_path = current_path.visit(n);
                     queue.push(new_path)
                 }
             }
