@@ -1,5 +1,6 @@
 use std::collections::HashSet;
 use std::io::{self, Write};
+use std::fmt::Debug;
 
 pub fn origami(skip: bool) {
     if !skip {
@@ -17,11 +18,10 @@ pub fn origami(skip: bool) {
             sheet = sheet.fold(instruction);
         }
 
-        sheet.print();
+        println!("{:?}", sheet);
     }
 }
 
-#[derive(Debug)]
 struct Sheet {
     height: i32,
     width: i32,
@@ -121,21 +121,21 @@ impl Sheet {
             width: self.width,
         }
     }
+}
 
-    fn print(&self) {
+impl Debug for Sheet {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         for x in 0..self.width {
-            println!("");
+            write!(f, "\n")?;
             for y in 0..self.height {
                 if self.points.contains(&(x, y * -1)) {
-                    print!("# ");
-                    io::stdout().flush().unwrap();
+                    write!(f, "# ")?;
                 } else {
-                    print!(". ");
-                    io::stdout().flush().unwrap();
+                    write!(f, ". ")?;
                 }
             }
         }
-        println!("");
+        Ok(())
     }
 }
 
