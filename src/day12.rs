@@ -74,7 +74,7 @@ impl CavePath {
             CaveType::Small => {
                 self.max_small_visits < 2
                     || self.visit_counts.get(&cave.name.clone()).unwrap_or(&0) < &1
-            }
+            } // for part 1, we can just remove the max_small_visits line
         }
     }
 
