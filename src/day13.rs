@@ -1,5 +1,4 @@
 use std::collections::HashSet;
-use std::io::{self, Write};
 use std::fmt::Debug;
 
 pub fn origami(skip: bool) {
