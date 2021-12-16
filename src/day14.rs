@@ -2,9 +2,7 @@ use std::collections::HashMap;
 
 pub fn polymerization(skip: bool) {
     if !skip {
-        let input_parts: Vec<&str> = include_str!("inputs/day-14.txt")
-            .split("\n\n")
-            .collect();
+        let input_parts: Vec<&str> = include_str!("inputs/day-14.txt").split("\n\n").collect();
 
         let rules: InsertionRule = input_parts[1]
             .split("\n")
@@ -77,11 +75,9 @@ impl Polymeraze {
                 .rules
                 .get(&k)
                 .expect("Could not find a value for this rule!");
-            // if the key we are looking at is the current last value, update to a new
-            // last value of (applied_value, k.1), and move the last value over to the new
-            // chain, since it won't otherwise be caught
-            // add the new entry of (k.0, applied_value) to the chain
+            // add the rule-generated entry of (k.0, applied_value) to the chain
             *new_chain.entry((k.0, applied_value.clone())).or_insert(0) += *v;
+            // add the rule-generated entry of (applied_value, k.1) to the chain
             *new_chain.entry((applied_value.clone(), k.1)).or_insert(0) += *v;
             // add the value that we get from the rule to the counts the number of times that this key exists
             // in the chain

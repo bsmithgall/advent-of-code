@@ -4,6 +4,7 @@ mod day11;
 mod day12;
 mod day13;
 mod day14;
+mod day15;
 mod day2;
 mod day3;
 mod day4;
@@ -14,7 +15,8 @@ mod day8;
 mod day9;
 
 fn main() {
-    day14::polymerization(false);
+    day15::chitons(false);
+    day14::polymerization(true);
     day13::origami(true);
     day12::navigate(true);
     day11::octopus(true);
