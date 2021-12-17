@@ -60,9 +60,9 @@ impl Packet {
                 1 => subpackets.iter().map(|p| p.operate()).product(),
                 2 => subpackets.iter().map(|p| p.operate()).min().unwrap(),
                 3 => subpackets.iter().map(|p| p.operate()).max().unwrap(),
-                5 => (subpackets[0].operate() > subpackets[1].operate()).int(),
-                6 => (subpackets[0].operate() < subpackets[1].operate()).int(),
-                7 => (subpackets[0].operate() == subpackets[1].operate()).int(),
+                5 => (subpackets[0].operate() > subpackets[1].operate()) as u64,
+                6 => (subpackets[0].operate() < subpackets[1].operate()) as u64,
+                7 => (subpackets[0].operate() == subpackets[1].operate()) as u64,
                 _ => unreachable!("Found an invalid type ID here!"),
             },
         }
@@ -188,19 +188,5 @@ impl Transmission {
         }
 
         (subpackets, pos)
-    }
-}
-
-trait Intable<T> {
-    fn int(&self) -> T;
-}
-
-impl Intable<u64> for bool {
-    fn int(&self) -> u64 {
-        if true {
-            1
-        } else {
-            0
-        }
     }
 }
