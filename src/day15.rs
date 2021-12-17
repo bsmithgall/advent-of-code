@@ -16,9 +16,11 @@ pub fn chitons(skip: bool) {
         println!("Shortest path: {}", shortest.unwrap());
 
         let expanded = expand_grid(&graph, 5);
+        let instant = std::time::Instant::now();
         println!(
-            "Shortest path through expanded grid: {}",
-            shortest_path(&expanded).unwrap()
+            "Shortest path through expanded grid: {}. Took {}ms",
+            shortest_path(&expanded).unwrap(),
+            instant.elapsed().as_millis()
         );
     }
 }
