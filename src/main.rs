@@ -8,6 +8,7 @@ mod day15;
 mod day16;
 mod day17;
 mod day18;
+mod day19;
 mod day2;
 mod day3;
 mod day4;
@@ -18,7 +19,8 @@ mod day8;
 mod day9;
 
 fn main() {
-    day18::snailfish(false);
+    day19::beacons_n_scanners(false);
+    day18::snailfish(true);
     day17::trick_shot(true);
     day16::decoder(true);
     day15::chitons(true);
