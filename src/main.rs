@@ -10,6 +10,7 @@ mod day17;
 mod day18;
 mod day19;
 mod day2;
+mod day20;
 mod day3;
 mod day4;
 mod day5;
@@ -19,7 +20,8 @@ mod day8;
 mod day9;
 
 fn main() {
-    day19::beacons_n_scanners(false);
+    day20::trench_map(false);
+    day19::beacons_n_scanners(true);
     day18::snailfish(true);
     day17::trick_shot(true);
     day16::decoder(true);
