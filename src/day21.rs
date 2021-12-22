@@ -182,7 +182,7 @@ impl QuantumGame {
     }
 
     /// For each player that we have, go through all existing universes, move that player
-    /// by each possible roll amount based on our three-sided day. If the player hasn't 
+    /// by each possible roll amount based on our three-sided day. If the player hasn't
     /// scored >= 21, take the new number of universes that have been created and add
     /// those into our universes map
     fn take_turn_for_player(&mut self, player: usize) {

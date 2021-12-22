@@ -12,6 +12,7 @@ mod day19;
 mod day2;
 mod day20;
 mod day21;
+mod day22;
 mod day3;
 mod day4;
 mod day5;
@@ -21,7 +22,8 @@ mod day8;
 mod day9;
 
 fn main() {
-    day21::dirac(false);
+    day22::reactor(false);
+    day21::dirac(true);
     day20::trench_map(true);
     day19::beacons_n_scanners(true);
     day18::snailfish(true);
