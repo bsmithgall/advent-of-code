@@ -6,7 +6,10 @@ pub fn trench_map(skip: bool) {
     if !skip {
         let mut trench_map = TrenchMap::from_input(include_str!("inputs/day-20.txt"));
 
-        println!("Light pixels after two steps: {}", trench_map.enhance().enhance().count_light_pixels());
+        println!(
+            "Light pixels after two steps: {}",
+            trench_map.enhance().enhance().count_light_pixels()
+        );
 
         let instant = Instant::now();
         let mut step = 0;
@@ -15,7 +18,10 @@ pub fn trench_map(skip: bool) {
             step += 1
         }
 
-        println!("Light pixels after fifty steps: {}", trench_map.count_light_pixels());
+        println!(
+            "Light pixels after fifty steps: {}",
+            trench_map.count_light_pixels()
+        );
         println!("Took {}ms", instant.elapsed().as_millis());
     }
 }
@@ -60,7 +66,7 @@ struct TrenchMap {
     map: HashMap<(isize, isize), Pixel>,
     width: isize,
     height: isize,
-    edges: Pixel
+    edges: Pixel,
 }
 
 impl TrenchMap {
@@ -139,7 +145,7 @@ impl TrenchMap {
             algorithm: self.algorithm.clone(),
             height: surrounded.height,
             width: surrounded.width,
-            edges: self.next_edges()
+            edges: self.next_edges(),
         }
     }
 
@@ -169,7 +175,7 @@ impl TrenchMap {
             algorithm: self.algorithm.clone(),
             height: self.height + 2,
             width: self.width + 2,
-            edges: self.edges
+            edges: self.edges,
         }
     }
 
@@ -177,7 +183,7 @@ impl TrenchMap {
         self.map.values().filter(|p| *p == &Pixel::Light).count()
     }
 
-    /// There are two possible cases here. In the first case, we have input 
+    /// There are two possible cases here. In the first case, we have input
     fn next_edges(&self) -> Pixel {
         if self.algorithm[0] == Pixel::Dark {
             Pixel::Dark
@@ -247,7 +253,6 @@ mod tests {
         assert_eq!(trench_map.get_enhancement_pixel(2, 2), Pixel::Light);
         assert_eq!(trench_map.get_enhancement_pixel(0, 0), Pixel::Dark);
     }
-
 
     #[test]
     fn enhance_and_count_light() {
