@@ -14,6 +14,7 @@ mod day20;
 mod day21;
 mod day22;
 mod day23;
+mod day24;
 mod day3;
 mod day4;
 mod day5;
@@ -23,7 +24,8 @@ mod day8;
 mod day9;
 
 fn main() {
-    day23::amphipods(false);
+    day24::alu(false);
+    day23::amphipods(true);
     day22::reactor(true);
     day21::dirac(true);
     day20::trench_map(true);
