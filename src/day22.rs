@@ -6,7 +6,10 @@ pub fn reactor(skip: bool) {
         for (idx, i) in reactor.instructions.iter().enumerate() {
             reactor.activated = reactor.activate(*i);
             if idx == 19 {
-                println!("Total activated within initialization step: {}", reactor.activated_count());
+                println!(
+                    "Total activated within initialization step: {}",
+                    reactor.activated_count()
+                );
             }
         }
 
@@ -165,35 +168,41 @@ mod test {
     }
 
     #[test]
-    fn test_cube_split_one(){
+    fn test_cube_split_one() {
         let r = Reactor::from_input("on x=10..12,y=10..12,z=10..12");
         assert_eq!(count_cubes(r), 27);
     }
 
     #[test]
-    fn test_cube_split_two(){
-        let r = Reactor::from_input("on x=10..12,y=10..12,z=10..12
-on x=11..13,y=11..13,z=11..13");
+    fn test_cube_split_two() {
+        let r = Reactor::from_input(
+            "on x=10..12,y=10..12,z=10..12
+on x=11..13,y=11..13,z=11..13",
+        );
 
         assert_eq!(count_cubes(r), 46);
     }
 
     #[test]
     fn test_cube_split_three() {
-        let r = Reactor::from_input("on x=10..12,y=10..12,z=10..12
+        let r = Reactor::from_input(
+            "on x=10..12,y=10..12,z=10..12
 on x=11..13,y=11..13,z=11..13
-off x=9..11,y=9..11,z=9..11");
+off x=9..11,y=9..11,z=9..11",
+        );
 
-assert_eq!(count_cubes(r), 38);
+        assert_eq!(count_cubes(r), 38);
     }
 
     #[test]
     fn test_cube_split_four() {
-        let r = Reactor::from_input("on x=10..12,y=10..12,z=10..12
+        let r = Reactor::from_input(
+            "on x=10..12,y=10..12,z=10..12
 on x=11..13,y=11..13,z=11..13
 off x=9..11,y=9..11,z=9..11
-on x=10..10,y=10..10,z=10..10");
+on x=10..10,y=10..10,z=10..10",
+        );
 
-assert_eq!(count_cubes(r), 39);
+        assert_eq!(count_cubes(r), 39);
     }
 }
