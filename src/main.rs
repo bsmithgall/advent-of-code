@@ -15,6 +15,7 @@ mod day21;
 mod day22;
 mod day23;
 mod day24;
+mod day25;
 mod day3;
 mod day4;
 mod day5;
@@ -24,7 +25,8 @@ mod day8;
 mod day9;
 
 fn main() {
-    day24::alu(false);
+    day25::cucumbers(false);
+    day24::alu(true);
     day23::amphipods(true);
     day22::reactor(true);
     day21::dirac(true);
