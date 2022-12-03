@@ -14,13 +14,17 @@ func Read(day string) string {
 	return string(data)
 }
 
+func ReadLines(day string) []string {
+	return strings.Split(Read(day), "\n")
+}
+
 // Convert a file of newline-separated integers into []int
 func ReadInts(day string) []int {
-	raw_data := strings.Split(Read(day), "\n")
+	rawData := strings.Split(Read(day), "\n")
 
-	ints := make([]int, len(raw_data))
+	ints := make([]int, len(rawData))
 
-	for idx, value := range raw_data {
+	for idx, value := range rawData {
 		parsed, err := strconv.Atoi(value)
 		if err != nil {
 			panic(err)
@@ -33,17 +37,17 @@ func ReadInts(day string) []int {
 
 // Convert a file of newline-separated rows of comma-separated integers into [][]int
 func ReadMatrix(day string) [][]int {
-	raw_data := strings.Split(Read(day), "\n")
+	rawData := strings.Split(Read(day), "\n")
 
-	rows := make([][]int, len(raw_data))
+	rows := make([][]int, len(rawData))
 
-	for idx, row_value := range raw_data {
-		raw_row := strings.Split(row_value, ",")
+	for idx, rowValue := range rawData {
+		rawRow := strings.Split(rowValue, ",")
 
-		cols := make([]int, len(raw_row))
+		cols := make([]int, len(rawRow))
 
-		for idy, col_value := range raw_row {
-			parsed, err := strconv.Atoi(col_value)
+		for idy, colValue := range rawRow {
+			parsed, err := strconv.Atoi(colValue)
 			if err != nil {
 				panic(err)
 			}
