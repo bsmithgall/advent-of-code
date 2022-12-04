@@ -2,7 +2,7 @@ package main
 
 import "testing"
 
-var input = []string{
+var inputThree = []string{
 	"vJrwpWtwJgWrhcsFMMfFFhFp",
 	"jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
 	"PmmdzqPrVvPwwTWBwg",
@@ -12,7 +12,7 @@ var input = []string{
 }
 
 func TestDayThreeOne(t *testing.T) {
-	result := DayThreeOne(input)
+	result := DayThreeOne(inputThree)
 
 	if result != 157 {
 		t.Errorf("Expected 157, got %d", result)
@@ -20,7 +20,7 @@ func TestDayThreeOne(t *testing.T) {
 }
 
 func TestDayThreeTwo(t *testing.T) {
-	result := DayThreeTwo(input)
+	result := DayThreeTwo(inputThree)
 
 	if result != 70 {
 		t.Errorf("Expected 70, got %d", result)
