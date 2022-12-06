@@ -89,14 +89,16 @@ func parseInstructions(instructionsStr []string) []Instruction {
 	for idx, str := range instructionsStr {
 		// [SBW] - you should look into fmt.Sscanf
 		// for example...
+		/*
 		var amount, from, to int
-		n, err := fmt.Sscanf(str, "move %v from %v to %v", &amount, &from, &to)
+		n, err := fmt.Sscanf(str, "move %d from %d to %d", &amount, &from, &to)
 		if err != nil {
 			panic(err)
 		}
 		if n != 3 {
 			panic("line didn't have the right number of fields matched")
 		}
+		*/
 		parts := strings.Split(str, " ")
 		amount, _ := strconv.Atoi(parts[1])
 		from, _ := strconv.Atoi(parts[3])
