@@ -36,13 +36,13 @@ func ReadInts(day string) []int {
 }
 
 // Convert a file of newline-separated rows of comma-separated integers into [][]int
-func ReadMatrix(day string) [][]int {
+func ReadMatrix(day string, sep string) [][]int {
 	rawData := strings.Split(Read(day), "\n")
 
 	rows := make([][]int, len(rawData))
 
 	for idx, rowValue := range rawData {
-		rawRow := strings.Split(rowValue, ",")
+		rawRow := strings.Split(rowValue, sep)
 
 		cols := make([]int, len(rawRow))
 
