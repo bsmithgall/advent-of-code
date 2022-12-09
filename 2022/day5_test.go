@@ -27,7 +27,7 @@ func TestDayFiveParse(t *testing.T) {
 		}
 	}
 
-	if !reflect.DeepEqual(instructions, []Instruction{{1, 1, 0}, {3, 0, 2}, {2, 1, 0}, {1, 0, 1}}) {
+	if !reflect.DeepEqual(instructions, []CrateInstruction{{1, 1, 0}, {3, 0, 2}, {2, 1, 0}, {1, 0, 1}}) {
 		t.Errorf("Did not parse instructions correctly, got %v", instructions)
 	}
 }

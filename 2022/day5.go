@@ -36,7 +36,7 @@ func DayFiveTwo(input string) string {
 	return stacks.Message()
 }
 
-func DayFiveParse(input string) (Stacks, []Instruction) {
+func DayFiveParse(input string) (Stacks, []CrateInstruction) {
 	parts := strings.Split(input, "\n\n")
 	stacksStr, instructionsStr := strings.Split(parts[0], "\n"), strings.Split(parts[1], "\n")
 
@@ -70,21 +70,21 @@ func parseStacks(stacksStr []string) Stacks {
 	return stacks
 }
 
-func parseInstructions(instructionsStr []string) []Instruction {
-	instructions := make([]Instruction, len(instructionsStr))
+func parseInstructions(instructionsStr []string) []CrateInstruction {
+	instructions := make([]CrateInstruction, len(instructionsStr))
 
 	for idx, str := range instructionsStr {
 		parts := strings.Split(str, " ")
 		amount, _ := strconv.Atoi(parts[1])
 		from, _ := strconv.Atoi(parts[3])
 		to, _ := strconv.Atoi(parts[5])
-		instructions[idx] = Instruction{amount, from - 1, to - 1}
+		instructions[idx] = CrateInstruction{amount, from - 1, to - 1}
 	}
 
 	return instructions
 }
 
-type Instruction struct {
+type CrateInstruction struct {
 	amount int
 	from   int
 	to     int
@@ -92,7 +92,7 @@ type Instruction struct {
 
 type Stacks [][]string
 
-func (s Stacks) Move9000(instruction Instruction) Stacks {
+func (s Stacks) Move9000(instruction CrateInstruction) Stacks {
 	for i := 0; i < instruction.amount; i++ {
 		value := s[instruction.from][0]
 		s[instruction.from] = s[instruction.from][1:]
@@ -101,7 +101,7 @@ func (s Stacks) Move9000(instruction Instruction) Stacks {
 	return s
 }
 
-func (s Stacks) Move9001(instruction Instruction) Stacks {
+func (s Stacks) Move9001(instruction CrateInstruction) Stacks {
 	value := s[instruction.from][0:instruction.amount]
 	newTo := []string{}
 	newTo = append(newTo, value...)
