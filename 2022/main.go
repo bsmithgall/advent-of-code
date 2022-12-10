@@ -1,7 +1,8 @@
 package main
 
 func main() {
-	DayNine(false)
+	DayTen(false)
+	DayNine(true)
 	DayEight(true)
 	DaySeven(true)
 	DaySix(true)
