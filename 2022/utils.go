@@ -59,3 +59,10 @@ func ReadMatrix(day string, sep string) [][]int {
 
 	return rows
 }
+
+func Abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}

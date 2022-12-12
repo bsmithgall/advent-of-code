@@ -121,13 +121,6 @@ func (r Rope) MoveTail() RopePosition {
 	return RopePosition{r.tail.x + xMove, r.tail.y + yMove}
 }
 
-func Abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-	return x
-}
-
 func StepCloserToZero(x int) int {
 	if Abs(x) < 1 {
 		return 0
