@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -65,4 +66,15 @@ func Abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+// like java's signum()
+func Signum(x int) int {
+	if x == 0 {
+		return 0
+	}
+	if math.Signbit(float64(x)) {
+		return -1
+	}
+	return 1
 }
