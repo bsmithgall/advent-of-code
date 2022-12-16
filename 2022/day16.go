@@ -7,6 +7,8 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"sync"
+	"time"
 )
 
 func DaySixteen(skip bool) {
@@ -17,7 +19,8 @@ func DaySixteen(skip bool) {
 	input := ReadLines("day-16")
 
 	fmt.Println("Most possible pressure released:", DaySixteenOne(input))
-	fmt.Println("Most possible pressure released (with Pachyderm Partner)", DaySixteenTwo(input))
+	start := time.Now()
+	fmt.Printf("Most possible pressure released (with Pacyderm Partner): %d (took %s)\n", DaySixteenTwo(input), time.Since(start))
 }
 
 func DaySixteenOne(input []string) int {
@@ -46,38 +49,45 @@ func DaySixteenTwo(input []string) int {
 
 	max := 0
 
+	mu := sync.Mutex{}
+
 	for i := 1; i <= len(withFlow)/2; i++ {
 		seen := make(map[string]bool)
 		for _, subgraphA := range Combinations(withFlow, i) {
-			subgraphB := Mirror(subgraphA, rooms)
+			go func(subgraphA []string) {
+				subgraphB := Mirror(subgraphA, rooms)
 
-			// if we are splitting in half, make sure we don't re-run over the same
-			// subgraphs twice. i think this might only matter for the sample input
-			// but /shrug
-			if len(subgraphA) == len(subgraphB) {
-				subgraphAStr := strings.Join(sort.StringSlice(subgraphA), "")
-				subgraphBStr := strings.Join(sort.StringSlice(subgraphB), "")
+				// if we are splitting in half, make sure we don't re-run over the same
+				// subgraphs twice. i think this might only matter for the sample input
+				// but /shrug
+				if len(subgraphA) == len(subgraphB) {
+					subgraphAStr := strings.Join(sort.StringSlice(subgraphA), "")
+					subgraphBStr := strings.Join(sort.StringSlice(subgraphB), "")
 
-				_, aOk := seen[subgraphAStr]
-				_, bOk := seen[subgraphBStr]
+					_, aOk := seen[subgraphAStr]
+					_, bOk := seen[subgraphBStr]
 
-				if aOk || bOk {
-					continue
+					if aOk || bOk {
+						return
+					}
+
+					seen[subgraphAStr] = true
+					seen[subgraphBStr] = true
 				}
 
-				seen[subgraphAStr] = true
-				seen[subgraphBStr] = true
-			}
+				initialStateA := TraversalState{0, 26, 0, 0, rooms["AA"], rooms, allToAll}
+				initialStateB := TraversalState{0, 26, 0, 0, rooms["AA"], rooms, allToAll}
 
-			initialStateA := TraversalState{0, 26, 0, 0, rooms["AA"], rooms, allToAll}
-			initialStateB := TraversalState{0, 26, 0, 0, rooms["AA"], rooms, allToAll}
+				maxPressureA := TraversePath(initialStateA, subgraphA)
+				maxPressureB := TraversePath(initialStateB, subgraphB)
 
-			maxPressureA := TraversePath(initialStateA, subgraphA)
-			maxPressureB := TraversePath(initialStateB, subgraphB)
+				mu.Lock()
+				if maxPressureA+maxPressureB > max {
+					max = maxPressureA + maxPressureB
+				}
+				mu.Unlock()
 
-			if maxPressureA+maxPressureB > max {
-				max = maxPressureA + maxPressureB
-			}
+			}(subgraphA)
 
 		}
 	}
