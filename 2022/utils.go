@@ -78,3 +78,50 @@ func Signum(x int) int {
 	}
 	return 1
 }
+
+// like functools.combinations
+// taken from: https://www.sobyte.net/post/2022-01/go-slice/
+func Combinations(iterable []string, r int) (rt [][]string) {
+	pool := iterable
+	n := len(pool)
+
+	if r > n {
+		return
+	}
+
+	indices := make([]int, r)
+	for i := range indices {
+		indices[i] = i
+	}
+
+	result := make([]string, r)
+	for i, el := range indices {
+		result[i] = pool[el]
+	}
+	s2 := make([]string, r)
+	copy(s2, result)
+	rt = append(rt, s2)
+
+	for {
+		i := r - 1
+		for ; i >= 0 && indices[i] == i+n-r; i -= 1 {
+		}
+
+		if i < 0 {
+			return
+		}
+
+		indices[i] += 1
+		for j := i + 1; j < r; j += 1 {
+			indices[j] = indices[j-1] + 1
+		}
+
+		for ; i < len(indices); i += 1 {
+			result[i] = pool[indices[i]]
+		}
+		s2 = make([]string, r)
+		copy(s2, result)
+		rt = append(rt, s2)
+	}
+
+}
