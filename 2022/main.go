@@ -1,7 +1,14 @@
 package main
 
+import (
+	"fmt"
+	"time"
+)
+
 func main() {
-	DaySixteen(false)
+	start := time.Now()
+	DaySeventeen(false)
+	DaySixteen(true)
 	DayFifteen(true)
 	DayFourteen(true)
 	DayThirteen(true)
@@ -17,4 +24,5 @@ func main() {
 	DayThree(true)
 	DayTwo(true)
 	DayOne(true)
+	fmt.Printf("Finished! (took %s)\n", time.Since(start))
 }

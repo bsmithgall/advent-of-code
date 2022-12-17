@@ -125,3 +125,17 @@ func Combinations(iterable []string, r int) (rt [][]string) {
 	}
 
 }
+
+func Max(x int, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+
+// should have done this a long time ago...
+type Point struct{ x, y int }
+
+func (p Point) Add(o Point) Point {
+	return Point{p.x + o.x, p.y + o.y}
+}

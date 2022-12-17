@@ -8,7 +8,6 @@ import (
 	"strconv"
 	"strings"
 	"sync"
-	"time"
 )
 
 func DaySixteen(skip bool) {
@@ -19,8 +18,7 @@ func DaySixteen(skip bool) {
 	input := ReadLines("day-16")
 
 	fmt.Println("Most possible pressure released:", DaySixteenOne(input))
-	start := time.Now()
-	fmt.Printf("Most possible pressure released (with Pacyderm Partner): %d (took %s)\n", DaySixteenTwo(input), time.Since(start))
+	fmt.Println("Most possible pressure released (with Pacyderm Partner):", DaySixteenTwo(input))
 }
 
 func DaySixteenOne(input []string) int {
