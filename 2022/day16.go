@@ -50,10 +50,12 @@ func DaySixteenTwo(input []string) int {
 	max := 0
 
 	mu := sync.Mutex{}
+	var wg sync.WaitGroup
 
 	for i := 1; i <= len(withFlow)/2; i++ {
 		seen := make(map[string]bool)
 		for _, subgraphA := range Combinations(withFlow, i) {
+			wg.Add(1)
 			go func(subgraphA []string) {
 				subgraphB := Mirror(subgraphA, rooms)
 
@@ -61,18 +63,20 @@ func DaySixteenTwo(input []string) int {
 				// subgraphs twice. i think this might only matter for the sample input
 				// but /shrug
 				if len(subgraphA) == len(subgraphB) {
-					subgraphAStr := strings.Join(sort.StringSlice(subgraphA), "")
-					subgraphBStr := strings.Join(sort.StringSlice(subgraphB), "")
+					func() {
+						mu.Lock()
+						defer mu.Unlock()
+						subgraphAStr := strings.Join(sort.StringSlice(subgraphA), "")
+						subgraphBStr := strings.Join(sort.StringSlice(subgraphB), "")
 
-					_, aOk := seen[subgraphAStr]
-					_, bOk := seen[subgraphBStr]
+						_, aOk := seen[subgraphAStr]
+						_, bOk := seen[subgraphBStr]
 
-					if aOk || bOk {
-						return
-					}
-
-					seen[subgraphAStr] = true
-					seen[subgraphBStr] = true
+						if !(aOk || bOk) {
+							seen[subgraphAStr] = true
+							seen[subgraphBStr] = true
+						}
+					}()
 				}
 
 				initialStateA := TraversalState{0, 26, 0, 0, rooms["AA"], rooms, allToAll}
@@ -86,12 +90,13 @@ func DaySixteenTwo(input []string) int {
 					max = maxPressureA + maxPressureB
 				}
 				mu.Unlock()
-
+				wg.Done()
 			}(subgraphA)
 
 		}
 	}
 
+	wg.Wait()
 	return max
 }
 
