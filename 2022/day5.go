@@ -45,10 +45,23 @@ func DayFiveParse(input string) (Stacks, []CrateInstruction) {
 
 func parseStacks(stacksStr []string) Stacks {
 	// []string{1, 2, 3, ...}
+	// [SBW] - since the lines are very evenly spaced, you could probably simplify this a smidge
+	// by using (line_lenth+1) / spaces_a_crate_takes (the +1 is for a space after the last crate)
+	// it really just depends on what you think is easier to follow (but this is a little tough to read)
 	labelRow := strings.Split(strings.Replace(stacksStr[len(stacksStr)-1], " ", "", -1), "")
 	numStacks, _ := strconv.Atoi(labelRow[len(labelRow)-1])
 	stacks := make(Stacks, numStacks)
 
+	// [SBW] - for the same reason as the note above, you know the index of each crate because they're consistently spaced
+	/*
+	for i := 0; i < len(stacks); i++ {
+		container := string(line[(i*4)+1]) // each crate takes 4 spaces; skip the first cuz it's a '['
+		if container != " " {
+			stacks[i] = append(stacks[i], container)
+		}
+
+	}
+	*/
 	for i := 0; i < len(stacksStr)-1; i++ {
 		stackStr := stacksStr[i]
 
@@ -74,6 +87,18 @@ func parseInstructions(instructionsStr []string) []CrateInstruction {
 	instructions := make([]CrateInstruction, len(instructionsStr))
 
 	for idx, str := range instructionsStr {
+		// [SBW] - you should look into fmt.Sscanf
+		// for example...
+		/*
+		var amount, from, to int
+		n, err := fmt.Sscanf(str, "move %d from %d to %d", &amount, &from, &to)
+		if err != nil {
+			panic(err)
+		}
+		if n != 3 {
+			panic("line didn't have the right number of fields matched")
+		}
+		*/
 		parts := strings.Split(str, " ")
 		amount, _ := strconv.Atoi(parts[1])
 		from, _ := strconv.Atoi(parts[3])
