@@ -27,7 +27,6 @@ func DayNineteenOne(blueprints []Blueprint) int {
 	maxTime := 24
 
 	for _, blueprint := range blueprints {
-		largers := map[SimulationState]int{InitialState(): 0}
 		maxRobots := [4]int{-1, -1, -1, math.MaxInt}
 		for _, robot := range blueprint.robots {
 			for idx, ore := range robot.ores {
@@ -37,18 +36,9 @@ func DayNineteenOne(blueprints []Blueprint) int {
 			}
 		}
 
-		result := blueprint.Simulate(InitialState(), maxTime, maxRobots, largers)
-		val := 0
-
-		for _, v := range result {
-			if v > val {
-				val = v
-			}
-		}
-
-		sum += val * blueprint.idx
-
+		sum += blueprint.Simulate(InitialState(), maxTime, maxRobots, 0) * blueprint.idx
 	}
+
 	return sum
 }
 
@@ -57,7 +47,6 @@ func DayNineteenTwo(blueprints []Blueprint) int {
 	maxTime := 32
 
 	for _, blueprint := range blueprints {
-		largers := map[SimulationState]int{InitialState(): 0}
 		maxRobots := [4]int{-1, -1, -1, math.MaxInt}
 		for _, robot := range blueprint.robots {
 			for idx, ore := range robot.ores {
@@ -66,19 +55,9 @@ func DayNineteenTwo(blueprints []Blueprint) int {
 				}
 			}
 		}
-
-		result := blueprint.Simulate(InitialState(), maxTime, maxRobots, largers)
-		val := 0
-
-		for _, v := range result {
-			if v > val {
-				val = v
-			}
-		}
-
-		product *= val
-
+		product *= blueprint.Simulate(InitialState(), maxTime, maxRobots, 0)
 	}
+
 	return product
 }
 
@@ -91,15 +70,8 @@ type Blueprint struct {
 	robots [4]Robot
 }
 
-// feels like there has to be a better return type here but i can't figure it out...
-func (b Blueprint) Simulate(state SimulationState, maxTime int, maxRobots [4]int, largers map[SimulationState]int) map[SimulationState]int {
+func (b Blueprint) Simulate(state SimulationState, maxTime int, maxRobots [4]int, maxGeodes int) int {
 	robotConstructed := false
-	maxGeodes := 0
-	for _, v := range largers {
-		if v > maxGeodes {
-			maxGeodes = v
-		}
-	}
 
 	// for each robot type...
 	for robotTypeIdx := 0; robotTypeIdx < 4; robotTypeIdx++ {
@@ -160,7 +132,10 @@ func (b Blueprint) Simulate(state SimulationState, maxTime int, maxRobots [4]int
 		}
 
 		robotConstructed = true
-		largers = b.Simulate(SimulationState{newOres, newRobots, finishedAt}, maxTime, maxRobots, largers)
+		simulated := b.Simulate(SimulationState{newOres, newRobots, finishedAt}, maxTime, maxRobots, maxGeodes)
+		if simulated > maxGeodes {
+			maxGeodes = simulated
+		}
 	}
 
 	// no additional robots were able to be constructed, so we are at the best
@@ -168,11 +143,11 @@ func (b Blueprint) Simulate(state SimulationState, maxTime int, maxRobots [4]int
 	if !robotConstructed {
 		makeableGeodes := state.MakeableGeodes(maxTime)
 		if makeableGeodes > maxGeodes {
-			largers[state] = makeableGeodes
+			maxGeodes = makeableGeodes
 		}
 	}
 
-	return largers
+	return maxGeodes
 }
 
 type SimulationState struct {
