@@ -5,10 +5,9 @@ import (
 	"testing"
 )
 
-var inputTwenty = Encrypted{[]PuzzleNum{{0, 1}, {1, 2}, {2, -3}, {3, 3}, {4, -2}, {5, 0}, {6, 4}}}
-
 func TestMix(t *testing.T) {
-	resultEnc := Mix(inputTwenty)
+	e := Encrypted{[]PuzzleNum{{0, 1}, {1, 2}, {2, -3}, {3, 3}, {4, -2}, {5, 0}, {6, 4}}}
+	resultEnc := e.Mix(e.nums)
 	result := []int{}
 	for _, num := range resultEnc.nums {
 		result = append(result, num.val)

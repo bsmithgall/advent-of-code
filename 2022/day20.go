@@ -8,15 +8,15 @@ func DayTwenty(skip bool) {
 	}
 
 	input := ToEncrypted(ReadInts("day-20"))
-	fmt.Println(DayTwentyOne(input))
-	fmt.Println(DayTwentyTwo(input))
+	fmt.Println(DayTwentyPartOne(input))
+	fmt.Println(DayTwentyPartTwo(input))
 }
 
-func DayTwentyOne(encrypted Encrypted) int {
+func DayTwentyPartOne(encrypted Encrypted) int {
 	return encrypted.Mix(encrypted.nums).DecryptedValue()
 }
 
-func DayTwentyTwo(encrypted Encrypted) int {
+func DayTwentyPartTwo(encrypted Encrypted) int {
 	decryptionKey := 811589153
 	originalOrder := make([]PuzzleNum, len(encrypted.nums))
 
