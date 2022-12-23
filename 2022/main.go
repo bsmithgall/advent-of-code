@@ -7,7 +7,8 @@ import (
 
 func main() {
 	start := time.Now()
-	DayTwentyTwo(false)
+	DayTwentyThree(false)
+	DayTwentyTwo(true)
 	DayTwentyOne(true)
 	DayTwenty(true)
 	DayNineteen(true)
