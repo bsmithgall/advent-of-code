@@ -99,9 +99,8 @@ func (e Encrypted) Mix(mixOrder []PuzzleNum) Encrypted {
 	copy(mixed.nums, e.nums)
 	for _, num := range mixOrder {
 		curPosition := mixed.IndexOf(num)
-		modBy := mixed.Length() - 1
 		// https://stackoverflow.com/questions/43018206/modulo-of-negative-integers-in-go
-		newPosition := (((curPosition + num.val) % modBy) + modBy) % modBy
+		newPosition := ModPos((curPosition + num.val), mixed.Length()-1)
 
 		slicedOut := mixed.SliceOut(curPosition)
 		mixed = slicedOut.SliceIn(num, newPosition)

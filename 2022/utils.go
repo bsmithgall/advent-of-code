@@ -133,6 +133,11 @@ func Max(x int, y int) int {
 	return y
 }
 
+// https://stackoverflow.com/questions/43018206/modulo-of-negative-integers-in-go
+func ModPos(i, modBy int) int {
+	return ((i % modBy) + modBy) % modBy
+}
+
 // should have done this a long time ago...
 type Point struct{ x, y int }
 
