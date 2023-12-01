@@ -20,7 +20,27 @@ defmodule Mix.Tasks.Create do
         end
       end
       """,
-      [:write]
+      [:exclusive]
+    )
+
+    test_path = [File.cwd!(), "test", "days", "day#{day}_test.exs"] |> Path.join()
+
+    File.write(
+      test_path,
+      """
+      defmodule AocTest.Day#{day}Test do
+        use ExUnit.Case
+
+        alias Days.Day#{day}
+
+        test "part_one/1 works as expected" do
+        end
+
+        test "part_two/1 works as expected" do
+        end
+      end
+      """,
+      [:exclusive]
     )
   end
 end
