@@ -34,13 +34,21 @@ defmodule Mix.Tasks.Create do
         alias Days.Day#{day}
 
         test "part_one/1 works as expected" do
+          assert Day#{day}.part_one(\"\"\"
+          \"\"\") == 0
         end
 
         test "part_two/1 works as expected" do
+          assert Day#{day}.part_two(\"\"\"
+          \"\"\") == 0
         end
       end
       """,
       [:exclusive]
     )
+
+    input_path = [File.cwd!(), "priv", "inputs", "day-#{day}.txt"] |> Path.join()
+
+    File.write(input_path, "", [:exclusive])
   end
 end
