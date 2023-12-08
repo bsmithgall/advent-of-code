@@ -1,7 +1,7 @@
 defmodule Days.Day7 do
   @behaviour Days.Day
 
-  defstruct hand: [], freqs: [], bid: 0, hv: 0
+  defstruct hand: [], freqs: %{}, bid: 0, hv: 0
 
   @impl Days.Day
   def part_one(input) do
