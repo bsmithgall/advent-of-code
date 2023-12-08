@@ -52,4 +52,21 @@ defmodule Days.Day8 do
       end
     end)
   end
+
+  # alternatively, recursive implementation
+
+  def calculate_steps_r(steps, maps, from, to_func) do
+    calculate_steps_r(0, steps, maps, from, to_func)
+  end
+
+  def calculate_steps_r(step, steps, maps, from, to_func) do
+    next = Map.get(maps, from)
+    dir = Enum.at(steps, rem(step, length(steps)))
+
+    cond do
+      to_func.(from) == true -> step
+      dir == "L" -> calculate_steps_r(step + 1, steps, maps, next.l, to_func)
+      dir == "R" -> calculate_steps_r(step + 1, steps, maps, next.r, to_func)
+    end
+  end
 end
