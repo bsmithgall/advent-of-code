@@ -19,7 +19,8 @@ defmodule Days.Day10 do
   """
   def part_two(input) do
     grid = Grid.from_input(input)
-    {loop, start_char} = find_enclosed_loop(grid)
+    {loop, {start_coord, start_value}} = find_enclosed_loop(grid)
+    grid = Grid.put(grid, start_coord, start_value)
 
     Enum.reduce(0..grid.h, 0, fn y, acc ->
       Enum.reduce(0..grid.w, {acc, false}, fn x, {row_acc, inside?} ->
@@ -28,7 +29,7 @@ defmodule Days.Day10 do
 
         # scan across the line, flipping if we are inside or outside based on
         # encountering │ ┌ or ┐ characters
-        inside? = if in_loop and flip?(v, start_char), do: not inside?, else: inside?
+        inside? = if in_loop and flip?(v), do: not inside?, else: inside?
 
         # if we are inside and not in the pipe loop, we are contained, increment
         # by one
@@ -59,7 +60,7 @@ defmodule Days.Day10 do
       end)
 
     {next_point(grid, MapSet.new([start]), start, first_neighbor, Grid.get(grid, first_neighbor)),
-     start_char}
+     {start, start_char}}
   end
 
   def next_point(_, %MapSet{} = visited, _, _, "S"), do: visited
@@ -82,6 +83,5 @@ defmodule Days.Day10 do
   def edges({x, y}, "F"), do: {{x + 1, y}, {x, y + 1}}
   def edges(_, _), do: {{}, {}}
 
-  def flip?("S", v), do: flip?(v, nil)
-  def flip?(v, _), do: v == "|" or v == "7" or v == "F"
+  def flip?(v), do: v == "|" or v == "7" or v == "F"
 end
