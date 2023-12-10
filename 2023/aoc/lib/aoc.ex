@@ -24,11 +24,12 @@ defmodule AOC do
         7 -> Days.Day.exec(Days.Day7, input(day))
         8 -> Days.Day.exec(Days.Day8, input(day))
         9 -> Days.Day.exec(Days.Day9, input(day))
+        10 -> Days.Day.exec(Days.Day10, input(day))
         _ -> {"Could not find module for day #{day}.", :na}
       end
 
-    IO.puts("Part 1 Result \"#{r1}\", Took #{t1 / 1_000_000}ms")
-    IO.puts("Part 2 Result \"#{r2}\", Took #{t2 / 1_000_000}ms")
+    IO.puts("Part 1 Result \"#{r1}\", Took #{t1 / 1_000}ms")
+    IO.puts("Part 2 Result \"#{r2}\", Took #{t2 / 1_000}ms")
   end
 
   defp input(day) do

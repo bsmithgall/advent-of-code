@@ -34,6 +34,23 @@ defmodule Grid do
     }
   end
 
+  def get(%__MODULE__{} = grid, coord), do: Map.get(grid.points, coord)
+
+  @doc """
+  Returns coords [E, W, N, S], with anything outside the grid represented as nil
+  """
+  def get_direct_neighbor_coords(%__MODULE__{} = grid, {x, y}) do
+    [
+      {x + 1, y},
+      {x - 1, y},
+      {x, y - 1},
+      {x, y + 1}
+    ]
+    |> Enum.map(fn {x, y} ->
+      if x <= grid.w and y <= grid.h and x >= 0 and y >= 0, do: {x, y}, else: nil
+    end)
+  end
+
   def get_neighbor_coords(%__MODULE__{} = grid, {x, y}) do
     [
       {x + 1, y + 1},
@@ -46,10 +63,12 @@ defmodule Grid do
       {x, y - 1}
     ]
     |> Enum.filter(fn {x, y} -> x <= grid.w and y <= grid.h and x >= 0 and y >= 0 end)
-    |> MapSet.new()
   end
 
   def neighbors?(%__MODULE__{} = grid, coord) do
-    get_neighbor_coords(grid, coord) |> MapSet.intersection(grid.coords) |> MapSet.size() > 0
+    get_neighbor_coords(grid, coord)
+    |> MapSet.new()
+    |> MapSet.intersection(grid.coords)
+    |> MapSet.size() > 0
   end
 end
