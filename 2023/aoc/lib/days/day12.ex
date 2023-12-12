@@ -3,8 +3,6 @@ defmodule Days.Day12 do
 
   @impl Days.Day
   def part_one(input) do
-    Memoize.start()
-
     parse_input(input)
     |> Enum.map(fn {status, constraints} -> count(status, constraints) end)
     |> Enum.sum()
@@ -12,8 +10,6 @@ defmodule Days.Day12 do
 
   @impl Days.Day
   def part_two(input) do
-    Memoize.start()
-
     parse_input(input)
     |> Enum.map(fn {status, constraints} ->
       {
@@ -21,7 +17,8 @@ defmodule Days.Day12 do
         constraints |> List.duplicate(5) |> List.flatten()
       }
     end)
-    |> Enum.map(&count(elem(&1, 0), elem(&1, 1)))
+    |> Task.async_stream(&count(elem(&1, 0), elem(&1, 1)))
+    |> Stream.map(&elem(&1, 1))
     |> Enum.sum()
   end
 
