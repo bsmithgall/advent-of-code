@@ -1,0 +1,27 @@
+defmodule AocTest.Day12Test do
+  use ExUnit.Case
+
+  alias Days.Day12
+
+  test "part_one/1 works as expected" do
+    assert Day12.part_one("""
+           ???.### 1,1,3
+           .??..??...?##. 1,1,3
+           ?#?#?#?#?#?#?#? 1,3,1,6
+           ????.#...#... 4,1,1
+           ????.######..#####. 1,6,5
+           ?###???????? 3,2,1
+           """) == 21
+  end
+
+  test "part_two/1 works as expected" do
+    assert Day12.part_two("""
+           ???.### 1,1,3
+           .??..??...?##. 1,1,3
+           ?#?#?#?#?#?#?#? 1,3,1,6
+           ????.#...#... 4,1,1
+           ????.######..#####. 1,6,5
+           ?###???????? 3,2,1
+           """) == 525_152
+  end
+end
