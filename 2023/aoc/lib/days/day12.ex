@@ -63,7 +63,7 @@ defmodule Days.Day12 do
   def count("?" <> springs, ".", [0 | t]), do: count(springs, ".", t)
 
   def count("?" <> springs, ".", [h | t]) do
-    Memoize.memoize({springs, [h | t]}, fn ->
+    Memoize.proc_memoize({springs, [h | t]}, fn ->
       count(springs, "#", [h - 1 | t]) + count(springs, ".", [h | t])
     end)
   end

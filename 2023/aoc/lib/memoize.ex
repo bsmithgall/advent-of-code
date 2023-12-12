@@ -8,6 +8,9 @@ defmodule Memoize do
 
   def start_link(), do: GenServer.start_link(__MODULE__, Map.new(), name: __MODULE__)
 
+  @doc """
+  Memoize the "right" way with a GenServer
+  """
   def memoize(key, func) do
     case GenServer.call(__MODULE__, {:get, key}) do
       {:ok, v} ->
@@ -19,6 +22,23 @@ defmodule Memoize do
           GenServer.cast(__MODULE__, {:put, key, v})
           v
         end)
+    end
+  end
+
+  @doc """
+  Memoize with a process dictionary
+  """
+  def proc_memoize(key, func) do
+    case Process.get(key) do
+      nil ->
+        func.()
+        |> then(fn v ->
+          Process.put(key, v)
+          v
+        end)
+
+      v ->
+        v
     end
   end
 
