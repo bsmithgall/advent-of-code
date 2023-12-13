@@ -78,4 +78,18 @@ defmodule Grid do
     |> MapSet.intersection(grid.coords)
     |> MapSet.size() > 0
   end
+
+  def at_col(%__MODULE__{} = grid, row_idx) do
+    Map.filter(grid.points, fn {{x, _}, _} -> x == row_idx end)
+    |> Enum.map(fn {{_, y}, v} -> {y, v} end)
+    |> Enum.sort_by(&elem(&1, 0))
+    |> Enum.map(&elem(&1, 1))
+  end
+
+  def at_row(%__MODULE__{} = grid, col_idx) do
+    Map.filter(grid.points, fn {{_, y}, _} -> y == col_idx end)
+    |> Enum.map(fn {{x, _}, v} -> {x, v} end)
+    |> Enum.sort_by(&elem(&1, 0))
+    |> Enum.map(&elem(&1, 1))
+  end
 end
