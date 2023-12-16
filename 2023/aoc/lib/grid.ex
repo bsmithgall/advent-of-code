@@ -34,7 +34,7 @@ defmodule Grid do
     }
   end
 
-  def get(%__MODULE__{} = grid, coord), do: Map.get(grid.points, coord)
+  def get(%__MODULE__{} = grid, coord, default \\ nil), do: Map.get(grid.points, coord, default)
 
   def put(%__MODULE__{} = grid, coord, value) do
     Map.merge(grid, %{
