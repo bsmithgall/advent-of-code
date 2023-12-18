@@ -1,5 +1,7 @@
 defmodule Grid do
-  defstruct w: 0, h: 0, points: %{}, coords: MapSet
+  defstruct w: 0, h: 0, points: %{}, coords: MapSet.new()
+
+  def new(), do: %__MODULE__{}
 
   def from_input(input) do
     from_input(input, & &1)
@@ -35,8 +37,16 @@ defmodule Grid do
   end
 
   def extent(%__MODULE__{} = grid), do: {grid.w, grid.h}
+  def x_min(%__MODULE__{} = grid), do: grid.coords |> Enum.map(&elem(&1, 0)) |> Enum.min()
+  def x_extent(%__MODULE__{} = grid), do: grid.coords |> Enum.map(&elem(&1, 0)) |> Enum.min_max()
+  def x_extent_r(%__MODULE__{} = grid), do: x_extent(grid) |> then(fn {s, e} -> s..e end)
+  def y_min(%__MODULE__{} = grid), do: grid.coords |> Enum.map(&elem(&1, 1)) |> Enum.min()
+  def y_extent(%__MODULE__{} = grid), do: grid.coords |> Enum.map(&elem(&1, 1)) |> Enum.min_max()
+
+  def y_extent_r(%__MODULE__{} = grid), do: y_extent(grid) |> then(fn {s, e} -> s..e end)
 
   def get(%__MODULE__{} = grid, coord, default \\ nil), do: Map.get(grid.points, coord, default)
+  def member?(%__MODULE__{} = grid, coord), do: MapSet.member?(grid.coords, coord)
 
   def put(%__MODULE__{} = grid, coord, value) do
     Map.merge(grid, %{

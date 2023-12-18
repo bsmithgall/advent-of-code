@@ -4,8 +4,20 @@ defimpl Inspect, for: Grid do
   def inspect(grid, opts) do
     concat(
       line(),
-      Enum.map(0..grid.h, fn idx ->
-        concat(Inspect.inspect(Grid.at_row(grid, idx) |> Enum.join(), opts), line())
+      Enum.map(Grid.y_extent_r(grid), fn idy ->
+        concat(
+          Inspect.inspect(
+            Enum.map(Grid.x_extent_r(grid), fn idx ->
+              case Grid.get(grid, {idx, idy}) do
+                nil -> ~c"."
+                v -> v
+              end
+            end)
+            |> Enum.join(),
+            opts
+          ),
+          line()
+        )
       end)
       |> concat()
     )
