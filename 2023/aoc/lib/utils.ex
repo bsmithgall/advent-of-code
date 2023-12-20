@@ -25,4 +25,7 @@ defmodule Utils do
   @spec lcm(number(), number()) :: number()
   def lcm(0, 0), do: 0
   def lcm(a, b), do: a * b / gcd(a, b)
+
+  @spec lcm(list()) :: number()
+  def lcm(items), do: Enum.reduce(items, 1, fn i, acc -> Utils.lcm(i, acc) |> trunc() end)
 end
