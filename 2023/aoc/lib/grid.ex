@@ -46,6 +46,11 @@ defmodule Grid do
   def y_extent_r(%__MODULE__{} = grid), do: y_extent(grid) |> then(fn {s, e} -> s..e end)
 
   def get(%__MODULE__{} = grid, coord, default \\ nil), do: Map.get(grid.points, coord, default)
+
+  def infinite_get(%__MODULE__{} = grid, {x, y}) do
+    get(grid, {infinite_x(grid, x), infinite_y(grid, y)})
+  end
+
   def member?(%__MODULE__{} = grid, coord), do: MapSet.member?(grid.coords, coord)
 
   def put(%__MODULE__{} = grid, coord, value) do
@@ -55,19 +60,27 @@ defmodule Grid do
     })
   end
 
+  def find(%__MODULE__{} = grid, value) do
+    Map.filter(grid.points, fn {_, v} -> v == value end)
+  end
+
   @doc """
   Returns coords [E, W, N, S], with anything outside the grid represented as nil
   """
-  def get_direct_neighbor_coords(%__MODULE__{} = grid, {x, y}) do
+  def get_direct_neighbor_coords(%__MODULE__{} = grid, coord) do
+    get_direct_neighbor_coords(grid, coord, :all)
+    |> Enum.map(fn {x, y} ->
+      if x <= grid.w and y <= grid.h and x >= 0 and y >= 0, do: {x, y}, else: nil
+    end)
+  end
+
+  def get_direct_neighbor_coords(_, {x, y}, :all) do
     [
       {x + 1, y},
       {x - 1, y},
       {x, y - 1},
       {x, y + 1}
     ]
-    |> Enum.map(fn {x, y} ->
-      if x <= grid.w and y <= grid.h and x >= 0 and y >= 0, do: {x, y}, else: nil
-    end)
   end
 
   def get_neighbor_coords(%__MODULE__{} = grid, {x, y}) do
@@ -103,5 +116,13 @@ defmodule Grid do
     |> Enum.map(fn {{x, _}, v} -> {x, v} end)
     |> Enum.sort_by(&elem(&1, 0))
     |> Enum.map(&elem(&1, 1))
+  end
+
+  defp infinite_x(%__MODULE__{} = grid, x) do
+    (rem(x, grid.w + 1) + grid.w + 1) |> rem(grid.w + 1)
+  end
+
+  defp infinite_y(%__MODULE__{} = grid, y) do
+    (rem(y, grid.h + 1) + grid.h + 1) |> rem(grid.h + 1)
   end
 end
