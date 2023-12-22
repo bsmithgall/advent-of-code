@@ -64,6 +64,13 @@ defmodule Grid do
     Map.filter(grid.points, fn {_, v} -> v == value end)
   end
 
+  def delete(%__MODULE__{} = grid, coord) do
+    Map.merge(grid, %{
+      points: Map.delete(grid.points, coord),
+      coords: MapSet.delete(grid.coords, coord)
+    })
+  end
+
   @doc """
   Returns coords [E, W, N, S], with anything outside the grid represented as nil
   """
