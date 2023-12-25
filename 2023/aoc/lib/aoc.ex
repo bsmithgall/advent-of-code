@@ -39,6 +39,7 @@ defmodule AOC do
         22 -> Days.Day.exec(Days.Day22, input(day))
         23 -> Days.Day.exec(Days.Day23, input(day))
         24 -> Days.Day.exec(Days.Day24, input(day))
+        25 -> Days.Day.exec(Days.Day25, input(day))
         _ -> {"Could not find module for day #{day}.", :na}
       end
 
