@@ -1,0 +1,93 @@
+# frozen_string_literal: true
+
+require "rake"
+require "bundler/gem_tasks"
+require "rspec/core/rake_task"
+require_relative "lib/aoc"
+root = File.dirname(__FILE__)
+Dir[File.join(root, "lib/aoc/days/*.rb")].each do |f|
+  require(File.expand_path(f))
+end
+
+RSpec::Core::RakeTask.new(:spec)
+
+task default: :spec
+
+def time(&block)
+  start = Process.clock_gettime(Process::CLOCK_MONOTONIC, :millisecond)
+  out = block.call
+  diff = Process.clock_gettime(Process::CLOCK_MONOTONIC, :millisecond) - start
+
+  [out, diff]
+end
+
+
+task :touch do
+  ARGV.each { |a| task a.to_sym do; end }
+
+  if !Integer(ARGV[1], exception: false)
+    raise "Invalid day. Expected integer, got '#{ARGV[1]}'"
+  end
+
+  FileUtils.touch(File.join(root, "inputs/day-#{ARGV[1]}.txt"))
+
+  File.open(File.join(root, "lib/aoc/days/day#{ARGV[1]}.rb"), "w") do |f|
+    f.write(%{require_relative "../day"
+
+module Aoc::Day
+  class Day#{ARGV[1]}
+    include Aoc::Day
+
+    def initialize(input)
+      @input = input
+    end
+
+    def part1
+    end
+
+    def part2
+    end
+  end
+end})
+  end
+
+  File.open(File.join(root, "spec/aoc/days/day#{ARGV[1]}_spec.rb"), "w") do |f|
+    f.write(%{require_relative "../../../lib/aoc/days/day#{ARGV[1]}"
+
+RSpec.describe Aoc::Day::Day#{ARGV[1]} do
+  include Aoc
+
+  input = Aoc.find_input(#{ARGV[1]})
+  day = Aoc::Day::Day#{ARGV[1]}.new(input)
+
+  it "solves part 1 correctly" do
+    expect(day.part1).to equal(nil)
+  end
+
+  it "solves part 2 correctly" do
+    expect(day.part2).to equal(nil)
+  end
+end})
+  end
+
+  puts "Created files for day #{ARGV[1]}"
+end
+
+task :run do
+  ARGV.each { |a| task a.to_sym do; end }
+
+  if !Integer(ARGV[1], exception: false)
+    raise "Invalid day. Expected integer, got '#{ARGV[1]}'"
+  end
+
+  include Aoc
+
+  input = Aoc.find_input(ARGV[1])
+  day = Aoc.const_get("Day::Day#{ARGV[1]}").new(input)
+
+  one, t1 = time { day.part1 }
+  two, t2 = time { day.part2 }
+
+  puts "Part 1 (#{t1}ms):\n#{one}"
+  puts "Part 2 (#{t2}ms):\n#{two}"
+end
