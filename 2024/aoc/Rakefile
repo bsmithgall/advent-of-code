@@ -21,7 +21,6 @@ def time(&block)
   [out, diff]
 end
 
-
 task :touch do
   ARGV.each { |a| task a.to_sym do; end }
 
@@ -57,7 +56,8 @@ end})
 RSpec.describe Aoc::Day::Day#{ARGV[1]} do
   include Aoc
 
-  input = Aoc.find_input(#{ARGV[1]})
+  input = "
+"
   day = Aoc::Day::Day#{ARGV[1]}.new(input)
 
   it "solves part 1 correctly" do
