@@ -1,30 +1,21 @@
 require_relative "../day"
+require_relative "../grid"
 
 module Aoc::Day
   class Day4
     include Aoc::Day
 
     def initialize(input)
-      @input = input.strip.split("\n").map { |l| l.split("") }
-      @dirs = [
-        [-1, 0], # up
-        [1, 0], # down
-        [0, -1], # left
-        [0, 1], # right
-        [-1, -1], # up-left
-        [-1, 1], # up-right
-        [1, -1], # down-left
-        [1, 1], # down-right
-      ]
+      @grid = XmasGrid.new(input)
     end
 
     def part1
       xmases = 0
 
-      @input.each_index do |row|
-        @input[0].each_index do |col|
-          @dirs.each do |dir|
-            if xmasable?(row, col, dir) and xmas?(row, col, dir)
+      @grid.rows.each do |y|
+        @grid.cols.each do |x|
+          (@grid.dirs + @grid.diags).each do |dir|
+            if @grid.xmasable?(x, y, dir) and @grid.xmas?(x, y, dir)
               xmases += 1
             end
           end
@@ -37,9 +28,9 @@ module Aoc::Day
     def part2
       x_dash_mases = 0
 
-      @input.each_index do |row|
-        @input[0].each_index do |col|
-          if x_dash_masable?(row, col) and mas?(row, col)
+      @grid.rows.each do |y|
+        @grid.cols.each do |x|
+          if @grid.masable?(x, y) and @grid.mas?(x, y)
             x_dash_mases += 1
           end
         end
@@ -47,24 +38,23 @@ module Aoc::Day
 
       x_dash_mases
     end
-
-    def xmasable?(row, col, (dirRow, dirCol))
-      row + 3 * dirRow < @input.length and row + 3 * dirRow >= 0 and
-      col + 3 * dirCol < @input.length and col + 3 * dirCol >= 0
-    end
-
-    def xmas?(row, col, (dirRow, dirCol))
-      (0..3).reduce("") { |acc, idx| acc + @input[row + idx * dirRow][col + idx * dirCol] } == "XMAS"
-    end
   end
 
-  def x_dash_masable?(row, col)
-    row >= 1 and row < @input.length - 1 and col >= 1 and col < @input[0].length - 1
-  end
+  class XmasGrid < Aoc::Grid
+    def xmasable?(x, y, (xDir, yDir))
+      in_bounds?(x + 3 * xDir, y + 3 * yDir)
+    end
 
-  def mas?(row, col)
-    @input[row][col] == "A" and
-    ["SM", "MS"].include?(@input[row - 1][col - 1] + @input[row + 1][col + 1]) and
-      ["SM", "MS"].include?(@input[row - 1][col + 1] + @input[row + 1][col - 1])
+    def xmas?(x, y, (xDir, yDir))
+      (0..3).reduce("") { |acc, idx| acc + at(x + idx * xDir, y + idx * yDir) } == "XMAS"
+    end
+
+    def masable?(x, y)
+      x >= 1 and x < @w and y >= 1 and y < @h
+    end
+
+    def mas?(x, y)
+      at(x, y) == "A" and ["SM", "MS"].include?(at(x - 1, y - 1) + at(x + 1, y + 1)) and ["SM", "MS"].include?(at(x - 1, y + 1) + at(x + 1, y - 1))
+    end
   end
 end
