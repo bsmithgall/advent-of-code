@@ -14,7 +14,7 @@ module Aoc::Day
 
       @grid.rows.each do |y|
         @grid.cols.each do |x|
-          (@grid.dirs + @grid.diags).each do |dir|
+          (@grid.all_dirs.values).each do |dir|
             if @grid.xmasable?(x, y, dir) and @grid.xmas?(x, y, dir)
               xmases += 1
             end

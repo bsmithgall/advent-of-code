@@ -3,18 +3,19 @@ module Aoc
     attr_reader :w, :h, :points, :dirs, :diags, :all_dirs
 
     def initialize(str, map_fn = :itself)
-      @dirs = [
-        [-1, 0], # up
-        [1, 0], # down
-        [0, -1], # left
-        [0, 1], # right
-      ]
-      @diags = [
-        [-1, -1], # up-left
-        [-1, 1], # up-right
-        [1, -1], # down-left
-        [1, 1], # down-right
-      ]
+      @dirs = {
+        w: [-1, 0],
+        e: [1, 0],
+        n: [0, -1],
+        s: [0, 1],
+      }
+      @diags = {
+        nw: [-1, -1], # up-left
+        ne: [-1, 1], # up-right
+        sw: [1, -1], # down-left
+        se: [1, 1], # down-right
+      }
+      @all_dirs = @dirs.merge(@diags)
 
       lines = str.strip.split("\n")
       @h = lines.length - 1
@@ -26,9 +27,23 @@ module Aoc
       x >= 0 and x <= @w and y >= 0 and y <= @h
     end
 
-    def at(x, y) = @points[y][x]
+    def at(x, y) = in_bounds?(x, y) ? @points[y][x] : nil
+
+    def set(x, y, v) = @points[y][x] = v
 
     def rows = (0..@h)
     def cols = (0..@w)
+
+    def find(v)
+      rows.each do |y|
+        cols.each do |x|
+          if @points[x][y] == v
+            return [y, x]
+          end
+        end
+      end
+
+      nil
+    end
   end
 end
