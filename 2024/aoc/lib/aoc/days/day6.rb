@@ -20,16 +20,9 @@ module Aoc::Day
       @grid.walk
       @grid.visited_pos.each_with_index do |(x, y), idx|
         g = Guard.new(@input)
-
-        if [x, y] == g.pos
-          next
-        end
-
+        next if [x, y] == g.pos
         g.set(x, y, "#")
-
-        if g.walk_in_loop?
-          count += 1
-        end
+        count += 1 if g.walk_in_loop?
       end
 
       count
@@ -51,9 +44,7 @@ module Aoc::Day
     def walk
       while in_bounds?(*@pos)
         @pos, @dir, val = next_step
-        if val != nil
-          @visited_pos.add(@pos)
-        end
+        @visited_pos.add(@pos) if val != nil
       end
 
       @visited_pos.length
@@ -62,9 +53,7 @@ module Aoc::Day
     def walk_in_loop?
       while in_bounds?(*@pos)
         pos, dir, _ = next_step
-        if @visited.include?([pos, dir])
-          return true
-        end
+        return true if @visited.include?([pos, dir])
 
         @visited.add([@pos, @dir])
         @visited_pos.add(@pos)
