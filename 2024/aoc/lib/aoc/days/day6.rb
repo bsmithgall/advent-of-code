@@ -67,7 +67,7 @@ module Aoc::Day
     def next_step
       pos, dir = @pos, @dir
       while true
-        next_pos = next_(dir)
+        next_pos = step(pos, dir)
         val = at(*next_pos)
         if val == "#"
           dir = @next_dir[dir]
@@ -77,10 +77,6 @@ module Aoc::Day
         end
       end
       [pos, dir, val]
-    end
-
-    def next_(dir = @dir)
-      @pos.zip(@dirs[dir]).map(&:sum)
     end
   end
 end

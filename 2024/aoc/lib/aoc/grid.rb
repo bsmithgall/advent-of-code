@@ -45,5 +45,17 @@ module Aoc
 
       nil
     end
+
+    def find_all(v)
+      rows.reduce([]) do |acc, y|
+        cols.reduce(acc) do |acc, x|
+          at(x, y) == v ? acc << [x, y] : acc
+        end
+      end
+    end
+
+    def step(pos, dir)
+      pos.zip(@dirs[dir]).map(&:sum)
+    end
   end
 end
