@@ -20,7 +20,7 @@ module Aoc::Day
 
   class Hiking < Aoc::Grid
     def initialize(input)
-      super(input, -> (i) { i == "." ? -1 : i.to_i})
+      super(input, ->(i) { i == "." ? -1 : i.to_i })
     end
 
     def walk_up_all
@@ -28,7 +28,7 @@ module Aoc::Day
     end
 
     def trailhead_score(orig)
-      score = Hash.new { |h, k| h[k] = 0 } 
+      score = Hash.new { |h, k| h[k] = 0 }
       candidates = [[orig, 0]]
       while !candidates.empty?
         (pos, next_) = candidates.pop
