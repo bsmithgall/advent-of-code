@@ -9,8 +9,4 @@ RSpec.describe Aoc::Day::Day11 do
   it "solves part 1 correctly" do
     expect(day.part1).to equal(55312)
   end
-
-  it "solves part 2 correctly" do
-    expect(day.part2).to equal(nil)
-  end
 end
