@@ -85,6 +85,5 @@ module Aoc::Day
     def step(pos, dir)
       pos.zip(dir).map(&:sum)
     end
-
   end
 end
