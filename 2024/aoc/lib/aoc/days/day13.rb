@@ -13,7 +13,7 @@ module Aoc::Day
     end
 
     def part2
-      @claws.map { |c| c.cheapest_big_prize_win }.filter { |n| !n.nil?}.sum
+      @claws.map { |c| c.cheapest_big_prize_win }.filter { |n| !n.nil? }.sum
     end
   end
 
