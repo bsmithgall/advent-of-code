@@ -35,14 +35,7 @@ module Aoc
     def cols = (0..@w)
 
     def find(v)
-      rows.each do |y|
-        cols.each do |x|
-          if @points[x][y] == v
-            return [y, x]
-          end
-        end
-      end
-
+      rows.each { |y| cols.each { |x| return [x, y] if @points[y][x] == v } }
       nil
     end
 
@@ -56,6 +49,19 @@ module Aoc
 
     def step(pos, dir)
       pos.zip(@dirs[dir]).map(&:sum)
+    end
+
+    def step_by(pos, offset)
+      pos.zip(offset).map(&:sum)
+    end
+
+    def inspect
+      str = "\n"
+      rows.each do |y|
+        cols.each { |x| str += at(x, y).to_s }
+        str += "\n"
+      end
+      str
     end
   end
 end
