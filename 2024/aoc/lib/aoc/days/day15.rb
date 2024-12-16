@@ -52,7 +52,6 @@ module Aoc::Day
         @pos = step(@pos, move)
       end
 
-
       self
     end
 
