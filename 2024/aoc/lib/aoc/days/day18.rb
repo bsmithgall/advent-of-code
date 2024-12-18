@@ -36,10 +36,11 @@ module Aoc::Day
 
       @w, @h = size - 1, size - 1
       @points = Array.new(size).map { |_| Array.new(size).fill(".") }
-      start = input.split("\n").take(limit).map { |p| p.split(",").map(&:to_i) }
-      @rest = input.split("\n").drop(limit).map { |p| p.split(",").map(&:to_i) }
 
-      start.each { |(x, y)| @points[y][x] = "#" }
+      all = input.split("\n").map { |p| p.split(",").map(&:to_i) }
+      all.take(limit).each { |x, y| block(x, y) }
+
+      @rest = all.drop(limit)
     end
 
     def block(x, y)
@@ -66,11 +67,9 @@ module Aoc::Day
     end
 
     def candidates(path, visited)
-      @dirs.keys.map { |dir| step(path.pos, dir) }
-        .filter do |np|
-        val = at(*np)
-        !val.nil? && val != "#" and !visited.include?(np)
-      end
+      @dirs.keys
+        .map { |dir| step(path.pos, dir) }
+        .filter { |np| !at(*np).nil? and at(*np) != "#" and !visited.include?(np) }
         .map { |np| Path.new(path.score + 1, np, nil, path.path.clone.add(np)) }
     end
   end
