@@ -45,7 +45,7 @@ module Aoc::Day
       @input.reduce(Hash.new) do |acc, input|
         seq = FourSeq.new
         prev_ones = ones = input % 10
-      
+
         acc.merge((1..2000).reduce(Hash.new) do |l, _|
           input = input.evolve
           ones = input % 10

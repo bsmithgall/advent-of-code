@@ -18,15 +18,15 @@ module Aoc::Day
     def initialize(input)
       @connections = input.split("\n")
         .map { |l| l.split("-") }
-        .reduce(Hash.new { |h, k| h[k] = Set.new}) do |acc, (l, r)|
-          acc[l].add(r)
-          acc[r].add(l)
-          acc
+        .reduce(Hash.new { |h, k| h[k] = Set.new }) do |acc, (l, r)|
+        acc[l].add(r)
+        acc[r].add(l)
+        acc
       end
     end
 
     def part1
-      triples.filter { |t| t.any? { |c| c.start_with?("t")} }.length
+      triples.filter { |t| t.any? { |c| c.start_with?("t") } }.length
     end
 
     def part2
