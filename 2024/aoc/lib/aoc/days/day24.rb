@@ -1,5 +1,4 @@
 require_relative "../day"
-require "pry"
 
 module Aoc::Day
   class Day24
