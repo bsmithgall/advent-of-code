@@ -15,6 +15,22 @@ fn digits_loop(x: Int, base: Int, acc: List(Int)) -> List(Int) {
   }
 }
 
+// https://github.com/gleam-lang/stdlib/blob/v0.67.0/src/gleam/int.gleam#L464
+pub fn undigits(numbers: List(Int), base: Int) -> Result(Int, Nil) {
+  case base < 2 {
+    True -> Error(Nil)
+    False -> undigits_loop(numbers, base, 0)
+  }
+}
+
+fn undigits_loop(numbers: List(Int), base: Int, acc: Int) -> Result(Int, Nil) {
+  case numbers {
+    [] -> Ok(acc)
+    [digit, ..] if digit >= base -> Error(Nil)
+    [digit, ..rest] -> undigits_loop(rest, base, acc * base + digit)
+  }
+}
+
 pub fn all_equal(l: List(a)) -> Bool {
   case l {
     [] -> True
