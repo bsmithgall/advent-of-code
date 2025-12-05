@@ -5,6 +5,7 @@ import days/day1
 import days/day2
 import days/day3
 import days/day4
+import days/day5
 import gleam/float
 import gleam/io
 import gleam/time/duration
@@ -20,6 +21,7 @@ pub fn main() -> Nil {
     ["2"] -> day.exec(day2.day, input("2"))
     ["3"] -> day.exec(day3.day, input("3"))
     ["4"] -> day.exec(day4.day, input("4"))
+    ["5"] -> day.exec(day5.day, input("5"))
     _ -> panic as "no day found!"
   }
 
