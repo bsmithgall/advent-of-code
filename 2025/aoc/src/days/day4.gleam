@@ -2,19 +2,20 @@ import day
 import gleam/dict
 import gleam/list
 import gleam/pair
+import gleam/string
 import grid
 
 pub const day = day.Day(part_one: part_one, part_two: part_two)
 
 pub fn part_one(input: String) -> day.DayResult {
-  grid.from_input(input, fn(x) { x })
+  grid.from_input(input, string.to_graphemes, fn(x) { x })
   |> accessible
   |> list.length()
   |> day.IntResult()
 }
 
 pub fn part_two(input: String) -> day.DayResult {
-  grid.from_input(input, fn(x) { x })
+  grid.from_input(input, string.to_graphemes, fn(x) { x })
   |> reduce(0)
   |> pair.second()
   |> day.IntResult()
