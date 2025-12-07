@@ -99,3 +99,7 @@ fn get_in_column_loop(
     }
   }
 }
+
+pub fn find_by_value(grid: Grid(a), val: a) -> List(Point) {
+  grid.coords |> dict.filter(fn(_, v) { val == v }) |> dict.keys
+}
