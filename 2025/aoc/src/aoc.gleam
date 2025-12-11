@@ -3,6 +3,7 @@ import day
 import days/day0
 import days/day1
 import days/day10
+import days/day11
 import days/day2
 import days/day3
 import days/day4
@@ -32,6 +33,7 @@ pub fn main() -> Nil {
     ["8"] -> day.exec(day8.day, input("8"))
     ["9"] -> day.exec(day9.day, input("9"))
     ["10"] -> day.exec(day10.day, input("10"))
+    ["11"] -> day.exec(day11.day, input("11"))
     _ -> panic as "no day found!"
   }
 
